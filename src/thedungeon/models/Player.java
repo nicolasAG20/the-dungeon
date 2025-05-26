@@ -10,18 +10,33 @@ import utilz.LoadSave;
 import thedungeon.main.Game;
 import static utilz.Constants.PlayerConstants.*;
 
+
 public class Player extends Sprite {
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 25;
     private int playerAction = IDLE;
     private boolean attacking = false;
+    private boolean defending = false; // para la animacion del escudo
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
 
+    private double hp; 
+    private int defense; 
+    private int atk; 
+    private double shield=0; 
+    private AtaqueEspadazo espadazo; 
+    private Ataque ataqueElectivo; 
+    
+    
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
         initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
+        hp= 25;
+        defense= 6;
+        atk= 8;
+        espadazo = new AtaqueEspadazo(atk , 1.5);
+        
     }
 
     public void update() {
@@ -86,9 +101,39 @@ public class Player extends Sprite {
             }
         }  
     }
-
+    public void Shield(){
+        this.shield+= this.defense*1.5;
+        this.defending= true; // para la animacion supongo
+    }
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
     }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public double getHp() {
+        return hp;
+    }
+
+    public void setHp(double hp) {
+        this.hp = hp;
+    }
+
+    public double getShield() {
+        return shield;
+    }
+
+    public void setShield(double shield) {
+        this.shield = shield;
+        
+    }
+    
+    public void addAtack(Ataque ataque){
+        ataqueElectivo = ataque;
+    }
+    
+    
 }
 

@@ -4,10 +4,12 @@
  */
 package TheDungeon.models;
 
+import baseThedungeon.models.Sprite;
+
 /**
  *
  * @author Nico
  */
-public abstract class Enemigo {
-    
+public class Enemy1 {
+
 }

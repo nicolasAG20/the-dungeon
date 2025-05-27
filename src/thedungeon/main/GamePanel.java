@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import static thedungeon.main.Game.*;
 import java.awt.event.KeyEvent;
 
-public class GamePanel extends JPanel implements KeyListener{
+public class GamePanel extends JPanel {
     private Game game;
 
     public GamePanel(Game game) {
@@ -43,23 +43,7 @@ public class GamePanel extends JPanel implements KeyListener{
             return game;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_Q -> { 
-                System.out.println("puta");
-            }
-            
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
+   
 
 
 }

@@ -16,7 +16,7 @@ public class AtaqueLatigo extends Ataque{
     
     @Override
     public double infligirDaño(Player enemy){
-        double damage= 0; 
+        double damage; 
         damage= 5+(atk*multiplier - (1.25*enemy.getDefense()));
         if(damage<0){
             return 0; 

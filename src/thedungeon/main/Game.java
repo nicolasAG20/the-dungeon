@@ -2,6 +2,7 @@ package thedungeon.main;
 
 // @author vanes
 
+import TheDungeon.models.Usu;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -9,7 +10,9 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import thedungeon.models.Ataque;
 import thedungeon.models.Enemy;
+import thedungeon.models.Enemy1;
 import thedungeon.models.Player;
 
 public class Game  implements Runnable {
@@ -20,7 +23,9 @@ public class Game  implements Runnable {
     private final int UPS_SET = 200;
     private Player player;
     private ArrayList<Enemy> enemies; 
+    private int enemigoAAtacar=0;
     
+    private int ronda=0; 
 
     public final static int TILES_DEFAULT_SIZE = 25;
     public final static float SCALE = 1.5f;
@@ -36,12 +41,14 @@ public class Game  implements Runnable {
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
-       
+        enemies = new ArrayList<>();
+        addNewEnemy(1);
+        System.out.println(enemies.size());
         startGameLoop();
     }
     
     private void initClasses() throws IOException{
-        player = new Player(40, 120, (int) (125 * SCALE), (int) (125 * SCALE));
+        player = new Player(40, 120, (int) ( 125 * SCALE), (int) (125 * SCALE));
     }
     
     private void startGameLoop(){
@@ -102,9 +109,38 @@ public class Game  implements Runnable {
     public Player getPlayer() {
         return player;
     }
-
-     
     
+    
+    public void addNewEnemy(int dificulty){
+        int enemyNum = (int) (Math.random() * (2 - 1 + 1)) + 1;
+        Enemy newEnemy;
+        if(enemyNum==1){
+             newEnemy = new Enemy1(40, 12 , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
+            
+        }else{
+             newEnemy = new Usu(40, 12 , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
+            
+        }
+        enemies.add(newEnemy);
+    }
+     
+    public void atacarEnemigo(Ataque ataque){
+        enemies.get(enemigoAAtacar).recibirDaño(ataque);
+        Enemy enemigoActual = enemies.get(enemigoAAtacar);
+        if(enemies.get(enemigoAAtacar).getHp()<=0){
+            enemies.remove(enemigoAAtacar);
+        }else{
+            player = enemigoActual.atacar(player);
+            System.out.println(player.getHp() + " " +enemigoActual.getHp());
+        }
+    }
 
+    public void setEnemigoAAtacar(int num){
+        enemigoAAtacar= num;
+    }
+    
+    public int getEnemigosVivos(){
+        return enemies.size();
+    }
    
 }

@@ -39,8 +39,9 @@ public abstract class Enemy extends Sprite{
         
     }
     
-    public void atacar(Player player){
+    public Player atacar(Player player){
         //animacion de ataque
+        attacking= true;
         double shieldP = player.getShield();
         double hpP= player.getHp();
         Ataque ataque; 
@@ -62,6 +63,7 @@ public abstract class Enemy extends Sprite{
         }
         player.setHp(hpP);
         player.setShield(shieldP);
+        return player;
     }
     
     
@@ -77,6 +79,13 @@ public abstract class Enemy extends Sprite{
         return shield;
     }
     
+    public void loadAnimation(){
+        
+    }
+
+    public double getHp() {
+        return hp;
+    }
     
     
 }

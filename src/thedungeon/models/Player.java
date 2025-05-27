@@ -20,7 +20,7 @@ import thedungeon.main.Game;
 import static utilz.Constants.PlayerConstants.*;
 
 
-public class Player extends Sprite implements KeyListener{
+public class Player extends Sprite {
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 25;
     private int playerAction = IDLE;
@@ -147,7 +147,7 @@ public class Player extends Sprite implements KeyListener{
         idle = new BufferedImage[4];
         attack= new BufferedImage[10];
         defend= new BufferedImage[12];
-        magic = new BufferedImage[8];
+        magic = new BufferedImage[9];
         
         for (int i= 0; i< 4; i++){
             int pos=0; 
@@ -182,12 +182,7 @@ public class Player extends Sprite implements KeyListener{
         }
     }
     
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_Q -> attacking=true;
-        }
-    }
+    
     
     
     public void Shield(){
@@ -233,21 +228,23 @@ public class Player extends Sprite implements KeyListener{
     public void setAmagando(boolean amagando) {
         this.amagando = amagando;
     }
-   
 
-    
-    
-    
-    
-    
-    
-    
-    @Override
-    public void keyReleased(KeyEvent e) {
+    public int getAtk() {
+        return atk;
     }
-     @Override
-    public void keyTyped(KeyEvent e) {
+
+    public void setAtk(int atk) {
+        this.atk = atk;
     }
+
+    public AtaqueEspadazo getEspadazo() {
+        return espadazo;
+    }
+
+    public void setEspadazo(AtaqueEspadazo espadazo) {
+        this.espadazo = espadazo;
+    }
+    
     
 }
 

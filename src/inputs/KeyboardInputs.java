@@ -15,6 +15,7 @@ public class KeyboardInputs implements KeyListener {
     private GamePanel gamePanel;
     private boolean ataqueSeleccionado= false; 
     private int numAtk;
+    private int shieldCooldown=0;
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         
@@ -33,11 +34,21 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         
-        if(gamePanel.getGame().getEnemigosVivos()<= 1){
-            
+        if(gamePanel.getGame().getEnemigosVivos()== 1){
+            if(e.getKeyChar()=='w' && shieldCooldown<=0){
+                shieldCooldown=3;
+                gamePanel.getGame().getPlayer().setDefending(true);
+                    gamePanel.getGame().getPlayer().shield();
+                    {
+                        try {
+                            gamePanel.getGame().atacarEnemigo();
+                        } catch (IOException ex) {}
+                    }
+        }
             gamePanel.getGame().setEnemigoAAtacar(0);
             switch (e.getKeyCode()) {
             case KeyEvent.VK_Q:
+                
                 gamePanel.getGame().getPlayer().setAttacking(true);
                 Ataque ataque = gamePanel.getGame().getPlayer().getEspadazo();
                 {
@@ -45,40 +56,44 @@ public class KeyboardInputs implements KeyListener {
                         gamePanel.getGame().atacarEnemigo(ataque);
                     } catch (IOException ex) {}
                 }
+                shieldCooldown--;
                 break;
-
-
-            case KeyEvent.VK_W:
-                gamePanel.getGame().getPlayer().setDefending(true);
+                
+            case KeyEvent.VK_E:
+                gamePanel.getGame().getPlayer().setAmagando(true);
+                shieldCooldown--;
+                break;
+            }
+            System.out.println(shieldCooldown);
+        }else if(gamePanel.getGame().getEnemigosVivos()>1){
+            if(e.getKeyChar()=='w' && shieldCooldown<=0){
+                shieldCooldown=3;
+            gamePanel.getGame().getPlayer().setDefending(true);
                 gamePanel.getGame().getPlayer().shield();
                 {
                     try {
                         gamePanel.getGame().atacarEnemigo();
                     } catch (IOException ex) {}
                 }
-                break;
-
-            case KeyEvent.VK_E:
-                gamePanel.getGame().getPlayer().setAmagando(true);
-                break;
             }
-            
-        }else if(gamePanel.getGame().getEnemigosVivos()>1){
             if(!ataqueSeleccionado){
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_Q:
+                        
                         numAtk=1;
                         break;
                     case KeyEvent.VK_E:
                         numAtk=2;
                         break;
                 }
+                
                 ataqueSeleccionado=true;
             }else{
                 
                 switch (e.getKeyCode()) {
                         
                     case KeyEvent.VK_1:
+                        shieldCooldown--;
                         gamePanel.getGame().getPlayer().setAttacking(true);
                         Ataque ataque = gamePanel.getGame().getPlayer().getEspadazo();
                         gamePanel.getGame().setEnemigoAAtacar(0);
@@ -91,6 +106,7 @@ public class KeyboardInputs implements KeyListener {
                         break;
 
                     case KeyEvent.VK_2:
+                        shieldCooldown--;
                         gamePanel.getGame().getPlayer().setAttacking(true);
                         ataque = gamePanel.getGame().getPlayer().getEspadazo();
                         gamePanel.getGame().setEnemigoAAtacar(1);
@@ -102,9 +118,32 @@ public class KeyboardInputs implements KeyListener {
                     }
                         break;
 
+                }
+                
+                System.out.println(shieldCooldown);
             }
-        }
             
+        }else if(gamePanel.getGame().isRondaMejora()){
+            switch(e.getKeyCode()){
+                case KeyEvent.VK_1:
+                
+                    try {
+                        gamePanel.getGame().usarMejora(0);
+                    } catch (IOException ex) {}
+                
+                    break;
+
+                case KeyEvent.VK_2:
+                    try {
+                        gamePanel.getGame().usarMejora(1);
+                    } catch (IOException ex) {}
+                    break;
+                case KeyEvent.VK_3:
+                    try {
+                        gamePanel.getGame().usarMejora(2);
+                    } catch (IOException ex) {}
+                    break;
+            }
         }
     
     }

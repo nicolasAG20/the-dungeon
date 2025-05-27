@@ -9,7 +9,7 @@ package thedungeon.models;
  * @author Nico
  */
 public abstract class Mejora {
-    public Player aplicarMejora(Player player, int dificultad){
+    public Player aplicarMejora(Player player){
         return player;
     }
 }

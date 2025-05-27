@@ -9,9 +9,19 @@ package thedungeon.models;
  * @author Nico
  */
 public class MejoraVida extends Mejora{
+    
+    private int statMHp;
+
+    public MejoraVida(int statMHp, int dificultadActual) {
+        this.statMHp = statMHp*dificultadActual;
+    }
+    
+    
+    
     @Override
-    public Player aplicarMejora(Player player, int dificultad){
-        player.setHpMax(player.getHpMax()+(4*dificultad));
+    public Player aplicarMejora(Player player){
+        player.setHpMax(player.getHpMax()+statMHp);
+        player.setHp(player.getHp()+statMHp);
         return player;
     }
 }

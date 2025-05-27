@@ -12,8 +12,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import thedungeon.models.Ataque;
+import thedungeon.models.Cura;
 import thedungeon.models.Enemy;
 import thedungeon.models.Enemy1;
+import thedungeon.models.Mejora;
+import thedungeon.models.MejoraAtaque;
+import thedungeon.models.MejoraDefensa;
+import thedungeon.models.MejoraVida;
 import thedungeon.models.Player;
 
 public class Game  implements Runnable {
@@ -24,9 +29,11 @@ public class Game  implements Runnable {
     private final int UPS_SET = 200;
     private Player player;
     private ArrayList<Enemy> enemies; 
+    private Mejora[] mejoras ;
     private int enemigoAAtacar=0;
     
     private int ronda=1; 
+    private int dificultad= 1; 
     private boolean rondaMejora=false;
 
     public final static int TILES_DEFAULT_SIZE = 25;
@@ -149,6 +156,7 @@ public class Game  implements Runnable {
             enemies.remove(enemigoAAtacar);
             
         }
+        
             for(int i=0; i< enemies.size(); i++){
                player= enemies.get(i).atacar(player);
             }
@@ -176,16 +184,57 @@ public class Game  implements Runnable {
     public int getEnemigosVivos(){
         return enemies.size();
     }
+
+    public boolean isRondaMejora() {
+        return rondaMejora;
+    }
    
     
     public void pasarDeRonda() throws IOException {
         ronda++;
         if(ronda==2){
-            addNewEnemy(1, 1);
-            addNewEnemy(1, 2);
+            addNewEnemy(dificultad, 1);
+            addNewEnemy(dificultad, 2);
+        }else if(ronda%4==0 ||(ronda%4==0 && ronda%3==0) ){
+            
+            dificultad++;
+        }else if(ronda%3==0 ){
+            generarRondaMejora();
+        }else{
+            addNewEnemy(dificultad, 1);
+            addNewEnemy(dificultad, 2);
         }
+        
     }
     public void generarRondaMejora(){
-        
+        rondaMejora= true;
+        mejoras = new Mejora[3];
+        for(int i=0; i<3; i++){
+            int numMejora = (int) (Math.random()* (4-1+1)+1);
+            int randomStat;
+            switch(numMejora){
+                case 1: 
+                    randomStat= (int) (Math.random()* (10-6+1)+6);
+                    mejoras[i]= new Cura(randomStat, dificultad);
+                    break;
+                case 2: 
+                    randomStat = (int) (Math.random()* (10-5+1)+5);
+                    mejoras[i]= new MejoraAtaque(randomStat, dificultad);
+                    break;
+                case 3: 
+                    randomStat = (int) (Math.random()* (9-5+1)+5);
+                    mejoras[i]= new MejoraDefensa(randomStat, dificultad);
+                    break;
+                case 4: 
+                    randomStat = (int) (Math.random()* (18-10+1)+10);
+                    mejoras[i]= new MejoraVida(randomStat, dificultad);
+            }
+        }
+    }
+    
+    public void usarMejora(int numMejora) throws IOException{
+        player = mejoras[numMejora].aplicarMejora(player);
+        pasarDeRonda();
+        rondaMejora= false; 
     }
 }

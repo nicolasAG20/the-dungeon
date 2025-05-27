@@ -32,6 +32,8 @@ public class Player extends Sprite {
     
     private Lector lector=new Lector("ubicaciones.txt"); 
     
+    public boolean haciendoAccion= true; 
+    
     private BufferedImage[] idle;
     private BufferedImage[] attack;
     private BufferedImage[] defend;
@@ -83,6 +85,7 @@ public class Player extends Sprite {
                 aniTick = 0;
                 aniIndex++;
                 if (aniIndex >= GetSpriteAmount(ATTACK)) {
+                    haciendoAccion=false;
                     aniIndex = 0;
                     attacking = false;
                 }
@@ -257,6 +260,14 @@ public class Player extends Sprite {
 
     public void setHpMax(double hpMax) {
         this.hpMax = hpMax;
+    }
+
+    public boolean isHaciendoAccion() {
+        return haciendoAccion;
+    }
+
+    public void setHaciendoAccion(boolean haciendoAccion) {
+        this.haciendoAccion = haciendoAccion;
     }
     
     

@@ -10,9 +10,16 @@ package thedungeon.models;
  */
 public class MejoraDefensa extends Mejora {
     
+    private int statDef;
+
+    public MejoraDefensa(int statDef, int dificultadActual) {
+        this.statDef = statDef*dificultadActual;
+    }
+    
+    
     @Override
-    public Player aplicarMejora(Player player, int dificultad){
-        player.setDefense(player.getDefense()+(3*dificultad));
+    public Player aplicarMejora(Player player){
+        player.setDefense(player.getDefense()+statDef);
         return player;
     }
 }

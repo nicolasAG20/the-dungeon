@@ -9,10 +9,10 @@ package thedungeon.models;
  * @author Nico
  */
 public abstract class Ataque {
-    public int atk; // el ataque se lo da inicialmente el jugador/enemigo (osea que toca establecerlo cada que se modifique ese valor)
+    public double atk; // el ataque se lo da inicialmente el jugador/enemigo (osea que toca establecerlo cada que se modifique ese valor)
     public double multiplier; 
 
-    public Ataque(int atk, double multiplier) {
+    public Ataque(double atk, double multiplier) {
         this.atk = atk;
         this.multiplier = multiplier;
     }

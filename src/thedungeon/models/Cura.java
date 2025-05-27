@@ -10,13 +10,23 @@ package thedungeon.models;
  */
 public class Cura extends Mejora{
     
+    private double curacion;
+    private double dificultadActual;
+
+    public Cura(double curacion, double dificultadActual) {
+        this.curacion = curacion*dificultadActual;
+        this.dificultadActual = dificultadActual;
+    }
+    
+    
+    
     @Override
-    public Player aplicarMejora(Player player , int dificultad){
+    public Player aplicarMejora(Player player ){
         double hpActual = player.getHp();
-        if(hpActual+(6*dificultad)>=player.getHpMax()){
+        if(hpActual+curacion>=player.getHpMax()){
             player.setHp(player.getHpMax());
         }else{
-            player.setHp(player.getHp()+(6*dificultad));
+            player.setHp(player.getHp()+curacion);
         }
         
         return player;

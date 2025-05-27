@@ -14,8 +14,8 @@ public class FinalBoss extends Enemy{
 
     public FinalBoss(float x, float y, int width, int height,int difficulty) {
         super(x, y, width, height, 300, 20,  15, difficulty);
-        AtaqueLatigo latigo = new AtaqueLatigo(damage, 1.5);
-        AtaqueRayoLasser rayo = new AtaqueRayoLasser(damage, 1.6);
+        AtaqueLatigo latigo = new AtaqueLatigo(14, 1.5);
+        AtaqueRayoLasser rayo = new AtaqueRayoLasser(16, 1.6);
         ataques.add(latigo);
         ataques.add(rayo);
     }

@@ -10,7 +10,7 @@ package thedungeon.models;
  */
 public class AtaqueHoja extends Ataque{
     
-    public AtaqueHoja(int atk, double multiplier) {
+    public AtaqueHoja(double atk, double multiplier) {
         super(atk, multiplier);
     }
     

@@ -24,7 +24,7 @@ public class LoadSave {
             img = ImageIO.read(is);            
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("archivo no encontrado");
         }finally{
             try{
                 is.close();

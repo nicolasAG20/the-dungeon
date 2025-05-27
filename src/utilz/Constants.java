@@ -58,7 +58,7 @@ public class Constants {
             case SHIELD:
                 return 12;
             case ATTACK_MAGIC:
-                return 9;
+                return 8;
             default:
                 return 1;
             }

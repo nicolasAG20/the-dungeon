@@ -2,37 +2,46 @@ package thedungeon.main;
 
 // @author vanes
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+import thedungeon.models.Enemy;
 import thedungeon.models.Player;
 
-public class Game implements Runnable{
+public class Game  implements Runnable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
     private Player player;
+    private ArrayList<Enemy> enemies; 
+    
 
-    public final static int TILES_DEFAULT_SIZE = 32;
+    public final static int TILES_DEFAULT_SIZE = 25;
     public final static float SCALE = 1.5f;
-    public final static int TILES_IN_WIDTH = 26;
-    public final static int TILES_IN_HEIGHT = 14;
+    public final static int TILES_IN_WIDTH = 16;
+    public final static int TILES_IN_HEIGHT = 16;
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;   
     
     
-    public Game(){
-        initClasses();
+    public Game() throws IOException{
+        initClasses();   
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
-         
+       
         startGameLoop();
     }
     
-    private void initClasses(){
-        player = new Player(200, 200, (int) (64 * SCALE), (int) (40 * SCALE));
+    private void initClasses() throws IOException{
+        player = new Player(40, 120, (int) (125 * SCALE), (int) (125 * SCALE));
     }
     
     private void startGameLoop(){
@@ -93,4 +102,9 @@ public class Game implements Runnable{
     public Player getPlayer() {
         return player;
     }
+
+     
+    
+
+   
 }

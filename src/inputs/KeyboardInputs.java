@@ -15,23 +15,32 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // No se necesita implementar
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setAttacking(false);
+            case KeyEvent.VK_Q:
+                gamePanel.getGame().getPlayer().setAttacking(true);
+                break;
+            case KeyEvent.VK_A:
+                gamePanel.getGame().getPlayer().setDefending(true);
                 break;
         }
     }
 
     @Override
+    public void keyReleased(KeyEvent e) {
+        
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_SPACE:
+            case KeyEvent.VK_Q:
                 gamePanel.getGame().getPlayer().setAttacking(true);
+                break;
+            case KeyEvent.VK_A:
+                gamePanel.getGame().getPlayer().setDefending(true);
+                break;
+            case KeyEvent.VK_Z:
+                gamePanel.getGame().getPlayer().setAmagando(true);
                 break;
         }
     }

@@ -10,11 +10,14 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import thedungeon.models.Ataque;
 import thedungeon.models.Cura;
 import thedungeon.models.Enemy;
 import thedungeon.models.Enemy1;
+import thedungeon.models.FinalBoss;
 import thedungeon.models.Mejora;
 import thedungeon.models.MejoraAtaque;
 import thedungeon.models.MejoraDefensa;
@@ -32,7 +35,7 @@ public class Game  implements Runnable {
     private Mejora[] mejoras ;
     private int enemigoAAtacar=0;
     
-    private int ronda=1; 
+    private int ronda=0; 
     private int dificultad= 1; 
     private boolean rondaMejora=false;
 
@@ -51,7 +54,6 @@ public class Game  implements Runnable {
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
         enemies = new ArrayList<>();
-        addNewEnemy(1,1);
         System.out.println(enemies.size());
         startGameLoop();
     }
@@ -65,10 +67,13 @@ public class Game  implements Runnable {
         gameThread.start();
     }
     
-    public void update(){       
+    public void update() throws IOException{       
         player.update();
         for(int i=0; i<enemies.size(); i++){
             enemies.get(i).update();
+        }
+        if(enemies.isEmpty() && !rondaMejora){
+            pasarDeRonda();
         }
     }
     
@@ -101,7 +106,9 @@ public class Game  implements Runnable {
             previousTime = currentTime;
             
             if(deltaU >= 1){
-                update();
+                try {
+                    update();
+                } catch (IOException ex) {}
                 updates++;
                 deltaU--;
             }
@@ -117,7 +124,7 @@ public class Game  implements Runnable {
                 frames = 0;
                 updates = 0;
             }
-        
+            
         }
     }
 
@@ -132,7 +139,7 @@ public class Game  implements Runnable {
         int x;
         int y; 
         if(pos==1){
-             x= 400;
+             x= 360;
             y= 250;
         }else{
             x= 400;
@@ -161,20 +168,12 @@ public class Game  implements Runnable {
                player= enemies.get(i).atacar(player);
             }
             System.out.println(player.getHp() +" "+ player.getShield() +" " +enemigoActual.getHp());
-        
-        if(enemies.isEmpty()){
-            pasarDeRonda();
-        }
     }
-    public void atacarEnemigo() throws IOException  {
+    public void atacarEnemigo() throws IOException, InterruptedException  {
                     for(int i=0; i< enemies.size(); i++){
                player= enemies.get(i).atacar(player);
             }
             System.out.println(player.getHp() +" "+ player.getShield() );
-        
-        if(enemies.isEmpty()){
-            pasarDeRonda();
-        }
     }
 
     public void setEnemigoAAtacar(int num){
@@ -192,11 +191,16 @@ public class Game  implements Runnable {
     
     public void pasarDeRonda() throws IOException {
         ronda++;
-        if(ronda==2){
+        if(ronda==1){
+            addNewEnemy(1,1);
+        }else if(ronda==2){
             addNewEnemy(dificultad, 1);
             addNewEnemy(dificultad, 2);
         }else if(ronda%4==0 ||(ronda%4==0 && ronda%3==0) ){
-            
+            int x= 150;
+            int y= 0;
+            FinalBoss boss = new FinalBoss(x, y , (int) (300 * SCALE), (int) (300 * SCALE), dificultad);
+            enemies.add(boss);
             dificultad++;
         }else if(ronda%3==0 ){
             generarRondaMejora();

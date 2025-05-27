@@ -10,13 +10,13 @@ package thedungeon.models;
  */
 public class AtaqueRayoLasser extends Ataque {
     
-    public AtaqueRayoLasser(int atk, double multiplier) {
+    public AtaqueRayoLasser(double atk, double multiplier) {
         super(atk, multiplier);
     }
     @Override
     public double infligirDaño(Player enemy){
         double damage= 0; 
-        damage= atk*multiplier - (1.2*enemy.getDefense());
+        damage= atk*multiplier - (1.5*enemy.getDefense());
         if(damage<0){
             return 0; 
         }

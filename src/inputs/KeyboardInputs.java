@@ -42,7 +42,7 @@ public class KeyboardInputs implements KeyListener {
                     {
                         try {
                             gamePanel.getGame().atacarEnemigo();
-                        } catch (IOException ex) {}
+                        } catch (IOException ex) {} catch (InterruptedException ex) { }
                     }
         }
             gamePanel.getGame().setEnemigoAAtacar(0);
@@ -73,7 +73,7 @@ public class KeyboardInputs implements KeyListener {
                 {
                     try {
                         gamePanel.getGame().atacarEnemigo();
-                    } catch (IOException ex) {}
+                    } catch (IOException ex) {} catch (InterruptedException ex) {}
                 }
             }
             if(!ataqueSeleccionado){

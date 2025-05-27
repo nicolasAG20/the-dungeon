@@ -15,7 +15,7 @@ public abstract class Enemy extends Sprite{
     int damage; 
     private double shield=0; 
     public ArrayList<Ataque> ataques = new ArrayList<>(); 
-    private boolean attacking = false;
+    public boolean attacking = false;
     
     
     public Enemy(float x, float y, int width, int height, int hp , int defense ,  int damage, int difficulty) {

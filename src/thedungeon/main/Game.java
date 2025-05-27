@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -111,7 +112,7 @@ public class Game  implements Runnable {
     }
     
     
-    public void addNewEnemy(int dificulty){
+    public void addNewEnemy(int dificulty) throws FileNotFoundException{
         int enemyNum = (int) (Math.random() * (2 - 1 + 1)) + 1;
         Enemy newEnemy;
         if(enemyNum==1){

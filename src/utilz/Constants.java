@@ -18,10 +18,21 @@ public class Constants {
             
         //}
     }
-    public static class Enemy2{
-        //public static int GetSpriteAmount(){
-            
-        //}        
+    public static class Usu{
+       public static final int IDLE = 0;
+       public static final int ATTACK = 1;      
+       
+       public static int GetSpriteAmount(int usuAction) {
+            switch (usuAction) {
+                case IDLE:
+                    return 2;
+                case ATTACK:
+                    return 6; 
+                default:
+                    return 1;
+
+            }
+        }
     }
     
     public static class FinalBossConstants{

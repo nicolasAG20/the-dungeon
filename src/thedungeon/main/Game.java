@@ -26,7 +26,8 @@ public class Game  implements Runnable {
     private ArrayList<Enemy> enemies; 
     private int enemigoAAtacar=0;
     
-    private int ronda=0; 
+    private int ronda=1; 
+    private boolean rondaMejora=false;
 
     public final static int TILES_DEFAULT_SIZE = 25;
     public final static float SCALE = 1.5f;
@@ -43,13 +44,13 @@ public class Game  implements Runnable {
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
         enemies = new ArrayList<>();
-        addNewEnemy(1);
+        addNewEnemy(1,1);
         System.out.println(enemies.size());
         startGameLoop();
     }
     
     private void initClasses() throws IOException{
-        player = new Player(40, 120, (int) ( 125 * SCALE), (int) (125 * SCALE));
+        player = new Player(40, 200, (int) ( 125 * SCALE), (int) (125 * SCALE));
     }
     
     private void startGameLoop(){
@@ -59,10 +60,16 @@ public class Game  implements Runnable {
     
     public void update(){       
         player.update();
+        for(int i=0; i<enemies.size(); i++){
+            enemies.get(i).update();
+        }
     }
     
     public void render(Graphics g){
         player.render(g);
+        for(int i=0; i<enemies.size(); i++){
+            enemies.get(i).render(g);
+        }
     }
     
     @Override
@@ -112,27 +119,53 @@ public class Game  implements Runnable {
     }
     
     
-    public void addNewEnemy(int dificulty) throws FileNotFoundException{
+    public void addNewEnemy(int dificulty, int pos) throws FileNotFoundException, IOException{
         int enemyNum = (int) (Math.random() * (2 - 1 + 1)) + 1;
         Enemy newEnemy;
+        int x;
+        int y; 
+        if(pos==1){
+             x= 400;
+            y= 250;
+        }else{
+            x= 400;
+            y= 70;
+        }
         if(enemyNum==1){
-             newEnemy = new Enemy1(40, 12 , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
+            newEnemy = new Usu(x, y , (int) (125 * SCALE), (int) (125 * SCALE), dificulty); 
+            //newEnemy = new Enemy1(100, 120 , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
             
         }else{
-             newEnemy = new Usu(40, 12 , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
+             newEnemy = new Usu(x, y , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
             
         }
         enemies.add(newEnemy);
     }
      
-    public void atacarEnemigo(Ataque ataque){
+    public void atacarEnemigo(Ataque ataque) throws IOException  {
         enemies.get(enemigoAAtacar).recibirDaño(ataque);
         Enemy enemigoActual = enemies.get(enemigoAAtacar);
         if(enemies.get(enemigoAAtacar).getHp()<=0){
             enemies.remove(enemigoAAtacar);
-        }else{
-            player = enemigoActual.atacar(player);
-            System.out.println(player.getHp() + " " +enemigoActual.getHp());
+            
+        }
+            for(int i=0; i< enemies.size(); i++){
+               player= enemies.get(i).atacar(player);
+            }
+            System.out.println(player.getHp() +" "+ player.getShield() +" " +enemigoActual.getHp());
+        
+        if(enemies.isEmpty()){
+            pasarDeRonda();
+        }
+    }
+    public void atacarEnemigo() throws IOException  {
+                    for(int i=0; i< enemies.size(); i++){
+               player= enemies.get(i).atacar(player);
+            }
+            System.out.println(player.getHp() +" "+ player.getShield() );
+        
+        if(enemies.isEmpty()){
+            pasarDeRonda();
         }
     }
 
@@ -144,4 +177,15 @@ public class Game  implements Runnable {
         return enemies.size();
     }
    
+    
+    public void pasarDeRonda() throws IOException {
+        ronda++;
+        if(ronda==2){
+            addNewEnemy(1, 1);
+            addNewEnemy(1, 2);
+        }
+    }
+    public void generarRondaMejora(){
+        
+    }
 }

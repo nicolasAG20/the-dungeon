@@ -4,12 +4,13 @@
  */
 package thedungeon.models;
 import baseThedungeon.models.Sprite;
+import java.awt.Graphics;
 import java.util.ArrayList;
 /**
  *
  * @author Nico
  */
-public abstract class Enemy extends Sprite{
+public abstract class Enemy extends Sprite {
     private double hp; 
     private int defense;
     int damage; 
@@ -41,6 +42,7 @@ public abstract class Enemy extends Sprite{
     
     public Player atacar(Player player){
         //animacion de ataque
+        
         attacking= true;
         double shieldP = player.getShield();
         double hpP= player.getHp();
@@ -55,7 +57,7 @@ public abstract class Enemy extends Sprite{
         if(shieldP>0){
             shieldP-=daño;
             daño-= shieldP; 
-        }else if (shieldP<0){
+        } if (shieldP<0){
             shieldP=0;
         }
         if(daño>0){
@@ -87,5 +89,6 @@ public abstract class Enemy extends Sprite{
         return hp;
     }
     
-    
+    public void update() {}
+    public void render(Graphics g){}
 }

@@ -31,21 +31,21 @@ public class Usu extends Enemy{
     
     Lector lector; 
     
-    public Usu(float x, float y, int width, int height, int difficulty) throws FileNotFoundException {
-        super(x, y, width, height, 22, 8, 4, difficulty);
+    public Usu(float x, float y, int width, int height, int difficulty) throws FileNotFoundException, IOException {
+        super(x, y, width, height, 12, 8, 4, difficulty);
         AtaqueHoja hoja;
-        hoja = new AtaqueHoja(getDamage() , 1.5);
+        hoja = new AtaqueHoja(getDamage() , 1.8);
+        initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
         ataques.add(hoja);
         lector = new Lector("usu.txt");
-        loadAnimation();
+        loadAnimations();
     }
-    
+    @Override
     public void update() {
         updateAnimationTick();
         setAnimation();
     }
-    
-    
+    @Override
     public void render(Graphics g) {
         if (attacking){
             g.drawImage(attack[aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
@@ -70,9 +70,9 @@ public class Usu extends Enemy{
             if (aniTick >= aniSpeed) {
                 aniTick = 0;
                 aniIndex++;
-                if (aniIndex >= 4) {
+                if (aniIndex >= GetSpriteAmount(IDLE)) {
                     aniIndex = 0;
-                    attacking = false;
+                    
                 }
             }
         }

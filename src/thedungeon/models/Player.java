@@ -36,6 +36,7 @@ public class Player extends Sprite {
     private BufferedImage[] attack;
     private BufferedImage[] defend;
     private BufferedImage[] magic;
+    private double hpMax;
     private double hp; 
     private int defense; 
     private int atk; 
@@ -49,8 +50,9 @@ public class Player extends Sprite {
         loadAnimations();
         initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
         this.lector= new Lector("ubicaciones.txt");
+        hpMax=25;
         hp= 25;
-        defense= 6;
+        defense= 5;
         atk= 8;
         espadazo = new AtaqueEspadazo(atk , 1.5);
         
@@ -185,7 +187,7 @@ public class Player extends Sprite {
     
     
     
-    public void Shield(){
+    public void shield(){
         this.shield+= this.defense*1.5;
         this.defending= true; // para la animacion supongo
     }
@@ -244,6 +246,20 @@ public class Player extends Sprite {
     public void setEspadazo(AtaqueEspadazo espadazo) {
         this.espadazo = espadazo;
     }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public double getHpMax() {
+        return hpMax;
+    }
+
+    public void setHpMax(double hpMax) {
+        this.hpMax = hpMax;
+    }
+    
+    
     
     
 }

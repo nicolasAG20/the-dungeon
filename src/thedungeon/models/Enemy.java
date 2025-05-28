@@ -18,21 +18,26 @@ public abstract class Enemy extends Sprite {
     public ArrayList<Ataque> ataques = new ArrayList<>(); 
     public boolean attacking = false;
     
+    private int puntos; 
     
-    public Enemy(float x, float y, int width, int height, int hp , int defense ,  double damage, int difficulty) {
+    
+    public Enemy(float x, float y, int width, int height, int hp , int defense ,  double damage, int difficulty, int puntos) {
         super(x, y, width, height);
         if(difficulty==2){
             this.hp= hp*1.7;
             this.defense =(int) ((int) defense*1.5); 
             this.damage= damage*1.7;
+            
         }else if(difficulty>2) {
             this.hp= hp*(difficulty)*1.5; 
             this.defense =(int) ((int) defense*(difficulty)*1.5); 
             this.damage= damage*(difficulty)*1.5;
+            this.puntos= (int) (puntos*difficulty*0.9);
         }else{
             this.hp= hp*(difficulty); 
             this.defense =(int) defense*(difficulty); 
             this.damage= damage*(difficulty);
+            this.puntos= puntos*difficulty;
         }
         
     }
@@ -99,4 +104,10 @@ public abstract class Enemy extends Sprite {
     
     public void update() {}
     public void render(Graphics g){}
+
+    public int getPuntos() {
+        return puntos;
+    }
+    
+    
 }

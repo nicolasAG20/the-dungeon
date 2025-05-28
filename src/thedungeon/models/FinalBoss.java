@@ -28,7 +28,7 @@ public class FinalBoss extends Enemy{
     
     
     public FinalBoss(float x, float y, int width, int height,int difficulty) throws IOException {
-        super(x, y, width, height, 30, 6,  11, difficulty);
+        super(x, y, width, height, 30, 6,  11, difficulty, 80);
         AtaqueLatigo latigo = new AtaqueLatigo(damage, 1.2);
         AtaqueRayoLasser rayo = new AtaqueRayoLasser(damage, 1.2);
         ataques.add(latigo);

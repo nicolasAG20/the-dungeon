@@ -163,11 +163,18 @@ public class KeyboardInputs implements KeyListener {
             if(e.getKeyChar()== 'r'){
                 try { 
                     Game nuevoJuego= new Game();
-                    
+                    gamePanel.getGame().compararPuntajes();
                     gamePanel.setGame(nuevoJuego);
                 } catch (IOException ex) {}
             }
         }
+        if(e.getKeyChar()== 'r'){
+                try { 
+                    Game nuevoJuego= new Game();
+                    gamePanel.getGame().compararPuntajes();
+                    System.exit(0);
+                } catch (IOException ex) {}
+            }
     
     }
     

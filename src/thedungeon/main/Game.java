@@ -2,6 +2,8 @@ package thedungeon.main;
 
 // @author vanes
 
+import baseThedungeon.models.EscritorArchivoTextoPlano;
+import baseThedungeon.models.Lector;
 import thedungeon.models.Usu;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -34,6 +36,10 @@ public class Game  implements Runnable {
     private int enemigoAAtacar=0;
     private int shieldCooldown=0;
     
+    
+    int puntajeMax; 
+    int puntajeActual=0; 
+    
     private int ronda=0; 
     private int dificultad= 1; 
     private boolean rondaMejora=false;
@@ -54,6 +60,7 @@ public class Game  implements Runnable {
         gamePanel.requestFocus();
         enemies = new ArrayList<>();
         System.out.println(enemies.size());
+        iniciarPuntajes();
         startGameLoop();
     }
     
@@ -160,6 +167,7 @@ public class Game  implements Runnable {
         enemies.get(enemigoAAtacar).recibirDaño(ataque);
         Enemy enemigoActual = enemies.get(enemigoAAtacar);
         if(enemies.get(enemigoAAtacar).getHp()<1){
+            puntajeActual+= enemies.get(enemigoAAtacar).getPuntos();
             enemies.remove(enemigoAAtacar);
             
         }
@@ -302,5 +310,35 @@ public class Game  implements Runnable {
     public int getRonda() {
         return ronda;
     }
+    
+    public void iniciarPuntajes() throws FileNotFoundException, IOException{
+        Lector lector = new Lector("puntaje.txt");
+        ArrayList<String> puntaje= lector.devolverTexto();
+        
+        puntajeMax= Integer.parseInt(puntaje.get(0));
+    }
+    
+    public void compararPuntajes() throws IOException{
+        if(puntajeActual>puntajeMax){
+            puntajeMax= puntajeActual;
+            ArrayList<String> puntaje = new ArrayList<>();
+            puntaje.add(""+puntajeMax);
+            EscritorArchivoTextoPlano escritor = new EscritorArchivoTextoPlano("puntaje.txt");
+            escritor.escribir(puntaje);
+        }
+    }
+
+    public int getPuntajeMax() {
+        return puntajeMax;
+    }
+
+    public int getPuntajeActual() {
+        return puntajeActual;
+    }
+
+    public GameWindow getGameWindow() {
+        return gameWindow;
+    }
+    
     
 }

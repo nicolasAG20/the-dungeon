@@ -26,7 +26,7 @@ public class Enemy1 extends Enemy{
     Lector lector; 
     
     public Enemy1(float x, float y, int width, int height, int difficulty) throws FileNotFoundException, IOException {
-        super(x, y, width, height, 10, 6, 6, difficulty);
+        super(x, y, width, height, 10, 6, 6, difficulty, 50);
         AtaqueVomito vomito = new AtaqueVomito(damage, 1.2);
         ataques.add(vomito);
         initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);

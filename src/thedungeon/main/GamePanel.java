@@ -28,6 +28,8 @@ public class GamePanel extends JPanel {
     private JLabel vidaEnemigos;
     private JLabel textoPerder;
     private JLabel rondaActual;
+    private JLabel puntajeActual;
+    private JLabel puntajeMax;
     private JLabel[] mejoras= new JLabel[3];
     private JLabel rondaMj; 
     private int entero=0;
@@ -61,20 +63,8 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(fondo, 0, 0,GAME_WIDTH,GAME_HEIGHT, this);
-            vidaPlayer.setText((int)(game.getPlayer().getHp()) + "/"+ game.getPlayer().getHpMax()+ " vida");
-            vidaPlayer.setLocation(20, 480);
-            escudoPlayer.setText((int)(game.getPlayer().getShield()) + " escudo");
-            escudoPlayer.setLocation(20, 500);
-            defPlayer.setText("Def:"+ game.getPlayer().getDefense());
-            defPlayer.setLocation(20, 525);
-            atkPlayer.setText("ATK:" + game.getPlayer().getAtk());
-            atkPlayer.setLocation(20, 550);
-            contadorEscudo.setText("escudo coolDown : " + shieldCooldown);
-            contadorEscudo.setLocation(150, 480);
-            rondaActual.setText("ronda actual: " + game.getRonda());
-            rondaActual.setLocation(250, 30);
-            textEnemies();
-            vidaEnemigos.setLocation(200,550);
+            locateTextos();
+            
             if(game.isRondaMejora()){
                 if(entero==0){
                     initMejoras();
@@ -136,18 +126,32 @@ public class GamePanel extends JPanel {
         defPlayer.setBounds(20, 550, 150, 120);
         defPlayer.setLocation(20, 550);
         
-        textoPerder = new JLabel(""+ shieldCooldown);
+        textoPerder = new JLabel();
         textoPerder.setForeground(Color.RED);
         textoPerder.setFont(new Font("Arial", Font.BOLD, 25));
         textoPerder.setBounds(20, 550, 150, 120);
         textoPerder.setLocation(20, 550);
         
-        rondaActual = new JLabel(""+ shieldCooldown);
+        rondaActual = new JLabel();
         rondaActual.setForeground(Color.WHITE);
         rondaActual.setFont(new Font("Arial", Font.BOLD, 16));
         rondaActual.setBounds(20, 550, 150, 120);
         rondaActual.setLocation(20, 550);
         
+        puntajeActual = new JLabel();
+        puntajeActual.setForeground(Color.WHITE);
+        puntajeActual.setFont(new Font("Arial", Font.BOLD, 16));
+        puntajeActual.setBounds(20, 550, 150, 120);
+        puntajeActual.setLocation(20, 550);
+        
+        puntajeMax = new JLabel();
+        puntajeMax.setForeground(Color.WHITE);
+        puntajeMax.setFont(new Font("Arial", Font.BOLD, 16));
+        puntajeMax.setBounds(20, 550, 150, 120);
+        puntajeMax.setLocation(20, 550);
+        
+        this.add(puntajeActual);
+        this.add(puntajeMax);
         this.add(rondaActual);
         this.add(textoPerder);
         this.add(atkPlayer);
@@ -174,6 +178,27 @@ public class GamePanel extends JPanel {
             this.add(mejoras[i]);
             }
         }
+    }
+    public void locateTextos(){
+        vidaPlayer.setText((int)(game.getPlayer().getHp()) + "/"+ game.getPlayer().getHpMax()+ " vida");
+        vidaPlayer.setLocation(20, 480);
+        escudoPlayer.setText((int)(game.getPlayer().getShield()) + " escudo");
+        escudoPlayer.setLocation(20, 500);
+        defPlayer.setText("Def:"+ game.getPlayer().getDefense());
+        defPlayer.setLocation(20, 525);
+        atkPlayer.setText("ATK:" + game.getPlayer().getAtk());
+        atkPlayer.setLocation(20, 550);
+        contadorEscudo.setText("escudo coolDown : " + shieldCooldown);
+        contadorEscudo.setLocation(150, 480);
+        rondaActual.setText("ronda actual: " + game.getRonda());
+        rondaActual.setLocation(250, 30);
+        puntajeMax.setText("puntaje max: " + game.getPuntajeMax());
+        puntajeMax.setLocation(0, 10);
+        puntajeActual.setText("puntaje: " + game.getPuntajeActual());
+        puntajeActual.setLocation(0, 40 );
+        
+        textEnemies();
+        vidaEnemigos.setLocation(200,550);
     }
      public void locateMejoras(){
         rondaMj.setLocation(250, 5);
@@ -219,5 +244,7 @@ public class GamePanel extends JPanel {
         this.game = game;
     }
      
-    
+    public void cerrarJuego(){
+        
+    }
 }

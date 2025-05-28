@@ -25,7 +25,11 @@ public abstract class Enemy extends Sprite {
             this.hp= hp*1.7;
             this.defense =(int) ((int) defense*1.5); 
             this.damage= damage*1.7;
-        }else {
+        }else if(difficulty>2) {
+            this.hp= hp*(difficulty)*1.5; 
+            this.defense =(int) ((int) defense*(difficulty)*1.5); 
+            this.damage= damage*(difficulty)*1.5;
+        }else{
             this.hp= hp*(difficulty); 
             this.defense =(int) defense*(difficulty); 
             this.damage= damage*(difficulty);

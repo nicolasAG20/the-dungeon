@@ -199,7 +199,7 @@ public class Player extends Sprite {
     
     
     public void shield(){
-        this.shield+= this.defense*1.5;
+        this.shield+= this.defense*1.1;
         this.defending= true; // para la animacion supongo
     }
     public void setAttacking(boolean attacking) {

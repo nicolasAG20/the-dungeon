@@ -13,8 +13,8 @@ public class MejoraDefensa extends Mejora {
     private int statDef;
 
     public MejoraDefensa(int statDef, int dificultadActual) {
-        super("Aumenta la defensa actual a + "+statDef*dificultadActual);
-        this.statDef = statDef*dificultadActual;
+        super("Aumenta la defensa actual a + "+ (int)(statDef*dificultadActual*0.7));
+        this.statDef = (int) (statDef*dificultadActual*0.7);
     }
     
     

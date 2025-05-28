@@ -26,10 +26,13 @@ public class GamePanel extends JPanel {
     private JLabel escudoPlayer;
     private JLabel contadorEscudo;
     private JLabel vidaEnemigos;
+    private JLabel textoPerder;
+    private JLabel rondaActual;
     private JLabel[] mejoras= new JLabel[3];
     private JLabel rondaMj; 
     private int entero=0;
     private BufferedImage fondo;
+    
     
     private int shieldCooldown=0;
     
@@ -68,6 +71,8 @@ public class GamePanel extends JPanel {
             atkPlayer.setLocation(20, 550);
             contadorEscudo.setText("escudo coolDown : " + shieldCooldown);
             contadorEscudo.setLocation(150, 480);
+            rondaActual.setText("ronda actual: " + game.getRonda());
+            rondaActual.setLocation(250, 30);
             textEnemies();
             vidaEnemigos.setLocation(200,550);
             if(game.isRondaMejora()){
@@ -80,6 +85,12 @@ public class GamePanel extends JPanel {
             }else{
                 hideMejoras();
                 entero=0;
+            }
+            if(!game.isJugadorVivo()){
+                textoPerder.setText("Ha perdido!! presione R para reiniciar");
+                textoPerder.setLocation(40, 200);
+            }else{
+                textoPerder.setText("");
             }
             game.render(g);
     }
@@ -125,6 +136,20 @@ public class GamePanel extends JPanel {
         defPlayer.setBounds(20, 550, 150, 120);
         defPlayer.setLocation(20, 550);
         
+        textoPerder = new JLabel(""+ shieldCooldown);
+        textoPerder.setForeground(Color.RED);
+        textoPerder.setFont(new Font("Arial", Font.BOLD, 25));
+        textoPerder.setBounds(20, 550, 150, 120);
+        textoPerder.setLocation(20, 550);
+        
+        rondaActual = new JLabel(""+ shieldCooldown);
+        rondaActual.setForeground(Color.WHITE);
+        rondaActual.setFont(new Font("Arial", Font.BOLD, 16));
+        rondaActual.setBounds(20, 550, 150, 120);
+        rondaActual.setLocation(20, 550);
+        
+        this.add(rondaActual);
+        this.add(textoPerder);
         this.add(atkPlayer);
         this.add(defPlayer);
         this.add(vidaEnemigos);
@@ -189,6 +214,10 @@ public class GamePanel extends JPanel {
             vidaEnemigos.setText(text);
         }
     }
-     
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+     
+    
 }

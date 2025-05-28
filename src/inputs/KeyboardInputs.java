@@ -34,7 +34,7 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         
-        if(gamePanel.getGame().getEnemigosVivos()== 1){
+        if(gamePanel.getGame().getEnemigosVivos()== 1 && gamePanel.getGame().isJugadorVivo()){
             if(e.getKeyChar()=='w' && shieldCooldown<=0){
                 shieldCooldown=3;
                 gamePanel.setShieldCooldown(shieldCooldown);
@@ -73,7 +73,7 @@ public class KeyboardInputs implements KeyListener {
                 break;
             }
             System.out.println(shieldCooldown);
-        }else if(gamePanel.getGame().getEnemigosVivos()>1){
+        }else if(gamePanel.getGame().getEnemigosVivos()>1 && gamePanel.getGame().isJugadorVivo()){
             if(e.getKeyChar()=='w' && shieldCooldown<=0){
                 shieldCooldown=3;
                 gamePanel.setShieldCooldown(shieldCooldown);
@@ -158,6 +158,14 @@ public class KeyboardInputs implements KeyListener {
                         gamePanel.getGame().usarMejora(2);
                     } catch (IOException ex) {}
                     break;
+            }
+        }else{
+            if(e.getKeyChar()== 'r'){
+                try { 
+                    Game nuevoJuego= new Game();
+                    
+                    gamePanel.setGame(nuevoJuego);
+                } catch (IOException ex) {}
             }
         }
     

@@ -37,7 +37,7 @@ public class Game  implements Runnable {
     private int ronda=0; 
     private int dificultad= 1; 
     private boolean rondaMejora=false;
-
+    private boolean jugadorVivo=true;
     public final static int TILES_DEFAULT_SIZE = 25;
     public final static float SCALE = 1.5f;
     public final static int TILES_IN_WIDTH = 16;
@@ -167,11 +167,19 @@ public class Game  implements Runnable {
             for(int i=0; i< enemies.size(); i++){
                player= enemies.get(i).atacar(player);
             }
+            if(player.getHp()<1){
+                player.setHp(0);
+                jugadorVivo=false;
+            }
             System.out.println(player.getHp() +" "+ player.getShield() +" " +enemigoActual.getHp());
     }
     public void atacarEnemigo() throws IOException, InterruptedException  {
                     for(int i=0; i< enemies.size(); i++){
                player= enemies.get(i).atacar(player);
+            }
+                if(player.getHp()<1){
+                player.setHp(0);
+                jugadorVivo=false;
             }
             System.out.println(player.getHp() +" "+ player.getShield() );
     }
@@ -205,7 +213,7 @@ public class Game  implements Runnable {
             FinalBoss boss = new FinalBoss(x, y , (int) (300 * SCALE), (int) (300 * SCALE), dificultad);
             enemies.add(boss);
             dificultad++;
-        }else if(ronda%3==0 ){
+        }else if(ronda%3==0 && ronda!=3){
             generarRondaMejora();
         }else{
             addNewEnemy(dificultad, 1);
@@ -217,9 +225,11 @@ public class Game  implements Runnable {
         rondaMejora= true;
         mejoras = new Mejora[3];
         for(int i=0; i<3; i++){
-            int numMejora = (int) (Math.random()* (4)+1);
+            int numMejora ;
             int randomStat;
-            switch(numMejora){
+            if(ronda!=1){
+                numMejora = (int) (Math.random()* (4)+1);
+                 switch(numMejora){
                 case 1: 
                     randomStat= (int) (Math.random()* (10-6+1)+6);
                     mejoras[i]= new Cura(randomStat, dificultad);
@@ -229,11 +239,11 @@ public class Game  implements Runnable {
                     mejoras[i]= new MejoraAtaque(randomStat, dificultad);
                     break;
                 case 3: 
-                    randomStat = (int) (Math.random()* (12-7+1)+7);
+                    randomStat = (int) (Math.random()* (10-6+1)+6);
                     mejoras[i]= new MejoraDefensa(randomStat, dificultad);
                     break;
                 case 4: 
-                    randomStat = (int) (Math.random()* (30-20+1)+20);
+                    randomStat = (int) (Math.random()* (20-13+1)+13);
                     mejoras[i]= new MejoraVida(randomStat, dificultad);
                     break;
                 default:
@@ -241,7 +251,30 @@ public class Game  implements Runnable {
                     mejoras[i] = new MejoraDefensa(5, dificultad);
                     System.err.println("Número de mejora inesperado: " + numMejora);
                     break;
+                }
+            }else{
+                numMejora = (int) (Math.random()* (3)+1);
+                 switch(numMejora){
+                case 1: 
+                    randomStat = (int) (Math.random()* (10-5+1)+5);
+                    mejoras[i]= new MejoraAtaque(randomStat, dificultad);
+                    break;
+                case 2: 
+                    randomStat = (int) (Math.random()* (10-6+1)+6);
+                    mejoras[i]= new MejoraDefensa(randomStat, dificultad);
+                    break;
+                case 3: 
+                    randomStat = (int) (Math.random()* (20-13+1)+13);
+                    mejoras[i]= new MejoraVida(randomStat, dificultad);
+                    break;
+                default:
+                    
+                    mejoras[i] = new MejoraDefensa(5, dificultad);
+                    System.err.println("Número de mejora inesperado: " + numMejora);
+                    break;
+                }
             }
+           
             if (mejoras[i] == null) {
             mejoras[i] = new MejoraVida(7, dificultad); 
             }
@@ -262,6 +295,12 @@ public class Game  implements Runnable {
         return enemies;
     }
     
-    
+    public boolean isJugadorVivo(){
+        return jugadorVivo;
+    }
+
+    public int getRonda() {
+        return ronda;
+    }
     
 }

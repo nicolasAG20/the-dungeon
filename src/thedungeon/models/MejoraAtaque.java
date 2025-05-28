@@ -14,8 +14,8 @@ public class MejoraAtaque extends Mejora{
 
         
     public MejoraAtaque( int estatAtk, int dificultadActual) {
-        super("Mejora el ataque a + " + (estatAtk * dificultadActual));
-        this.estatAtk = estatAtk * dificultadActual;
+        super("Mejora el ataque a + " + ((int)(estatAtk * dificultadActual*0.7)));
+        this.estatAtk = (int) (estatAtk * dificultadActual*0.7);
     }
 
     

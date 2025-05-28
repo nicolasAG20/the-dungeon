@@ -28,8 +28,8 @@ public class FinalBoss extends Enemy{
     
     
     public FinalBoss(float x, float y, int width, int height,int difficulty) throws IOException {
-        super(x, y, width, height, 37, 7,  7, difficulty);
-        AtaqueLatigo latigo = new AtaqueLatigo(damage, 1.3);
+        super(x, y, width, height, 30, 6,  11, difficulty);
+        AtaqueLatigo latigo = new AtaqueLatigo(damage, 1.2);
         AtaqueRayoLasser rayo = new AtaqueRayoLasser(damage, 1.2);
         ataques.add(latigo);
         ataques.add(rayo);
@@ -80,7 +80,7 @@ public class FinalBoss extends Enemy{
             if (aniTick >= aniSpeed) {
                 aniTick = 0;
                 aniIndex++;
-                if (aniIndex >= GetSpriteAmount(IDLE)) {
+                if (aniIndex >= 4) {
                     aniIndex = 0;
                     
                 }
@@ -157,17 +157,19 @@ public class FinalBoss extends Enemy{
             usingRay=true;
         }
         double daño = ataque.infligirDaño(player);
-        if(shieldP>0){
+        System.out.println(daño);
+        if(shieldP>1){
+            
             shieldP-=daño;
             daño-= shieldP; 
-        } if (shieldP<0){
+        } if (shieldP<1){
             shieldP=0;
         }
         if(daño>0){
             hpP -= daño; 
-            player.setHp(hpP);
+            
         }
-        
+        player.setHp(hpP);
         player.setShield(shieldP);
         return player;
     }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public abstract class Enemy extends Sprite {
     private double hp; 
     private int defense;
-    double damage; 
+    public double damage; 
     private double shield=0; 
     public ArrayList<Ataque> ataques = new ArrayList<>(); 
     public boolean attacking = false;
@@ -21,9 +21,16 @@ public abstract class Enemy extends Sprite {
     
     public Enemy(float x, float y, int width, int height, int hp , int defense ,  double damage, int difficulty) {
         super(x, y, width, height);
-        this.hp= hp*difficulty; 
-        this.defense =(int) defense*difficulty; 
-        this.damage= damage*difficulty;
+        if(difficulty==2){
+            this.hp= hp*1.7;
+            this.defense =(int) ((int) defense*1.5); 
+            this.damage= damage*1.7;
+        }else {
+            this.hp= hp*(difficulty); 
+            this.defense =(int) defense*(difficulty); 
+            this.damage= damage*(difficulty);
+        }
+        
     }
             
     public void recibirDaño(Ataque ataque){
@@ -36,6 +43,7 @@ public abstract class Enemy extends Sprite {
         }
         if(daño>0){
             this.hp -= daño; 
+            
         }
         
     }

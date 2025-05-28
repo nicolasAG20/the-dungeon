@@ -54,8 +54,8 @@ public class Player extends Sprite {
         this.lector= new Lector("ubicaciones.txt");
         hpMax=25;
         hp= 25;
-        defense= 5;
-        atk= 8;
+        defense= 8;
+        atk= 9;
         espadazo = new AtaqueEspadazo(atk , 1.5);
         
     }
@@ -187,7 +187,15 @@ public class Player extends Sprite {
         }
     }
     
-    
+    public void curar(int dificultad){
+        double hp = this.hp;
+        if(hp+4*dificultad>this.hp){
+            this.hp= hpMax;
+        }else{
+            this.hp+=8*dificultad;
+        }
+        
+    }
     
     
     public void shield(){
@@ -196,6 +204,8 @@ public class Player extends Sprite {
     }
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
+        defending= false;
+        amagando=false;
     }
 
     public int getDefense() {
@@ -224,14 +234,19 @@ public class Player extends Sprite {
     }
     public void attacking(){
         attacking= true;
+        
     }
 
     public void setDefending(boolean defending) {
         this.defending = defending;
+        amagando=false;
+        attacking=false;
     }
 
     public void setAmagando(boolean amagando) {
         this.amagando = amagando;
+        attacking=false;
+        defending=false;
     }
 
     public int getAtk() {

@@ -14,6 +14,7 @@ public class Cura extends Mejora{
     private double dificultadActual;
 
     public Cura(double curacion, double dificultadActual) {
+        super("aumenta la vida actual a +"+curacion*dificultadActual);
         this.curacion = curacion*dificultadActual;
         this.dificultadActual = dificultadActual;
     }

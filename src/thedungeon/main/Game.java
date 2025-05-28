@@ -34,6 +34,7 @@ public class Game  implements Runnable {
     private ArrayList<Enemy> enemies; 
     private Mejora[] mejoras ;
     private int enemigoAAtacar=0;
+    private int shieldCooldown=0;
     
     private int ronda=0; 
     private int dificultad= 1; 
@@ -59,7 +60,7 @@ public class Game  implements Runnable {
     }
     
     private void initClasses() throws IOException{
-        player = new Player(40, 200, (int) ( 125 * SCALE), (int) (125 * SCALE));
+        player = new Player(40, 225, (int) ( 125 * SCALE), (int) (125 * SCALE));
     }
     
     private void startGameLoop(){
@@ -146,8 +147,8 @@ public class Game  implements Runnable {
             y= 70;
         }
         if(enemyNum==1){
-            newEnemy = new Usu(x, y , (int) (125 * SCALE), (int) (125 * SCALE), dificulty); 
-            //newEnemy = new Enemy1(100, 120 , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
+            //newEnemy = new Usu(x, y , (int) (125 * SCALE), (int) (125 * SCALE), dificulty); 
+            newEnemy = new Enemy1(x, y , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
             
         }else{
              newEnemy = new Usu(x, y , (int) (125 * SCALE), (int) (125 * SCALE), dificulty);
@@ -157,9 +158,10 @@ public class Game  implements Runnable {
     }
      
     public void atacarEnemigo(Ataque ataque) throws IOException  {
+        shieldCooldown--;
         enemies.get(enemigoAAtacar).recibirDaño(ataque);
         Enemy enemigoActual = enemies.get(enemigoAAtacar);
-        if(enemies.get(enemigoAAtacar).getHp()<=0){
+        if(enemies.get(enemigoAAtacar).getHp()<1){
             enemies.remove(enemigoAAtacar);
             
         }
@@ -191,8 +193,11 @@ public class Game  implements Runnable {
     
     public void pasarDeRonda() throws IOException {
         ronda++;
-        if(ronda==1){
-            addNewEnemy(1,1);
+        if(ronda==5 || ronda==9){
+            generarRondaMejora();
+            player.curar(dificultad);
+        }else if(ronda==1){
+            generarRondaMejora();
         }else if(ronda==2){
             addNewEnemy(dificultad, 1);
             addNewEnemy(dificultad, 2);
@@ -214,7 +219,7 @@ public class Game  implements Runnable {
         rondaMejora= true;
         mejoras = new Mejora[3];
         for(int i=0; i<3; i++){
-            int numMejora = (int) (Math.random()* (4-1+1)+1);
+            int numMejora = (int) (Math.random()* (4)+1);
             int randomStat;
             switch(numMejora){
                 case 1: 
@@ -226,12 +231,21 @@ public class Game  implements Runnable {
                     mejoras[i]= new MejoraAtaque(randomStat, dificultad);
                     break;
                 case 3: 
-                    randomStat = (int) (Math.random()* (9-5+1)+5);
+                    randomStat = (int) (Math.random()* (12-7+1)+7);
                     mejoras[i]= new MejoraDefensa(randomStat, dificultad);
                     break;
                 case 4: 
-                    randomStat = (int) (Math.random()* (18-10+1)+10);
+                    randomStat = (int) (Math.random()* (30-20+1)+20);
                     mejoras[i]= new MejoraVida(randomStat, dificultad);
+                    break;
+                default:
+                    
+                    mejoras[i] = new MejoraDefensa(5, dificultad);
+                    System.err.println("Número de mejora inesperado: " + numMejora);
+                    break;
+            }
+            if (mejoras[i] == null) {
+            mejoras[i] = new MejoraVida(7, dificultad); 
             }
         }
     }
@@ -241,4 +255,15 @@ public class Game  implements Runnable {
         pasarDeRonda();
         rondaMejora= false; 
     }
+
+    public Mejora[] getMejoras() {
+        return mejoras;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+    
+    
+    
 }

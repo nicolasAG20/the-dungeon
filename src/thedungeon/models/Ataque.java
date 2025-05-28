@@ -21,7 +21,7 @@ public abstract class Ataque {
     
     public double infligirDaño(Enemy enemy){
         double damage= 0; 
-        damage= atk*multiplier - (int)(1.2*enemy.getDefense());
+        damage= (atk*multiplier)*(100/(enemy.getDefense()+100));
         if(damage<0){
             return 0; 
         }
@@ -29,10 +29,7 @@ public abstract class Ataque {
     }
     public double infligirDaño(Player enemy){
         double damage= 0; 
-        damage= atk*multiplier - (int)(1.2*enemy.getDefense());
-        if(damage<0){
-            return 0; 
-        }
+        damage= (atk*multiplier)*100/(enemy.getDefense()+400);
         return damage; 
     }
 

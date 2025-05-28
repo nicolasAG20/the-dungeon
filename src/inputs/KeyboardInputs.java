@@ -37,6 +37,7 @@ public class KeyboardInputs implements KeyListener {
         if(gamePanel.getGame().getEnemigosVivos()== 1){
             if(e.getKeyChar()=='w' && shieldCooldown<=0){
                 shieldCooldown=3;
+                gamePanel.setShieldCooldown(shieldCooldown);
                 gamePanel.getGame().getPlayer().setDefending(true);
                     gamePanel.getGame().getPlayer().shield();
                     {
@@ -56,18 +57,26 @@ public class KeyboardInputs implements KeyListener {
                         gamePanel.getGame().atacarEnemigo(ataque);
                     } catch (IOException ex) {}
                 }
-                shieldCooldown--;
+                if(shieldCooldown>0){
+                    shieldCooldown--;
+                }
+                
+                gamePanel.setShieldCooldown(shieldCooldown);
                 break;
                 
             case KeyEvent.VK_E:
                 gamePanel.getGame().getPlayer().setAmagando(true);
-                shieldCooldown--;
+                if(shieldCooldown>0){
+                    shieldCooldown--;
+                }
+                gamePanel.setShieldCooldown(shieldCooldown);
                 break;
             }
             System.out.println(shieldCooldown);
         }else if(gamePanel.getGame().getEnemigosVivos()>1){
             if(e.getKeyChar()=='w' && shieldCooldown<=0){
                 shieldCooldown=3;
+                gamePanel.setShieldCooldown(shieldCooldown);
             gamePanel.getGame().getPlayer().setDefending(true);
                 gamePanel.getGame().getPlayer().shield();
                 {
@@ -93,7 +102,10 @@ public class KeyboardInputs implements KeyListener {
                 switch (e.getKeyCode()) {
                         
                     case KeyEvent.VK_1:
-                        shieldCooldown--;
+                        if(shieldCooldown>0){
+                            shieldCooldown--;
+                        }
+                        gamePanel.setShieldCooldown(shieldCooldown);
                         gamePanel.getGame().getPlayer().setAttacking(true);
                         Ataque ataque = gamePanel.getGame().getPlayer().getEspadazo();
                         gamePanel.getGame().setEnemigoAAtacar(0);
@@ -106,7 +118,10 @@ public class KeyboardInputs implements KeyListener {
                         break;
 
                     case KeyEvent.VK_2:
-                        shieldCooldown--;
+                        if(shieldCooldown>0){
+                            shieldCooldown--;
+                        }
+                        gamePanel.setShieldCooldown(shieldCooldown);
                         gamePanel.getGame().getPlayer().setAttacking(true);
                         ataque = gamePanel.getGame().getPlayer().getEspadazo();
                         gamePanel.getGame().setEnemigoAAtacar(1);
@@ -159,4 +174,9 @@ public class KeyboardInputs implements KeyListener {
                 break;
         }
     }
+
+    public int getShieldCooldown() {
+        return shieldCooldown;
+    }
+    
 }

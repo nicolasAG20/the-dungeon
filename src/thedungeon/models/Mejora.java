@@ -9,7 +9,21 @@ package thedungeon.models;
  * @author Nico
  */
 public abstract class Mejora {
+    private String infoMejora;
+
+    public Mejora(String infoMejora) {
+        this.infoMejora = infoMejora;
+    }
+    
+    
+    
     public Player aplicarMejora(Player player){
         return player;
     }
+
+    public String getInfoMejora() {
+        return infoMejora;
+    }
+    
+    
 }

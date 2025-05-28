@@ -12,14 +12,20 @@ public class MejoraAtaque extends Mejora{
     
     private int estatAtk; 
 
-    public MejoraAtaque(int estatAtk, int dificultadActual) {
-        this.estatAtk = estatAtk*dificultadActual;
+        
+    public MejoraAtaque( int estatAtk, int dificultadActual) {
+        super("mejora el ataque a +" + (estatAtk * dificultadActual));
+        this.estatAtk = estatAtk * dificultadActual;
     }
+
+    
     
     
     @Override
     public Player aplicarMejora(Player player){
         player.setAtk(player.getAtk()+estatAtk);
+        AtaqueEspadazo espadazo = new AtaqueEspadazo(player.getAtk() , 1.5);
+        player.setEspadazo(espadazo);
         return player;
     }
 }

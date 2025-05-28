@@ -14,16 +14,27 @@ public class Constants {
     }
     
     public static class Enemy1{
-        //public static int GetSpriteAmount(){
-            
-        //}
+        public static final int IDLE = 0;
+        public static final int ATTACK = 1;      
+
+        public static int GetSpriteAmount(int usuAction) {
+             switch (usuAction) {
+                 case IDLE:
+                     return 3;
+                 case ATTACK:
+                     return 6; 
+                 default:
+                     return 1;
+
+             }
+         }
     }
     public static class Usu{
        public static final int IDLE = 0;
        public static final int ATTACK = 1;      
        
-       public static int GetSpriteAmount(int usuAction) {
-            switch (usuAction) {
+       public static int GetSpriteAmount(int EnemyAction) {
+            switch (EnemyAction) {
                 case IDLE:
                     return 2;
                 case ATTACK:

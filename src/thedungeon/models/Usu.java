@@ -32,7 +32,7 @@ public class Usu extends Enemy{
     Lector lector; 
     
     public Usu(float x, float y, int width, int height, int difficulty) throws FileNotFoundException, IOException {
-        super(x, y, width, height, 20, 4, 4.8, difficulty);
+        super(x, y, width, height, 12, 4, 7, difficulty);
         AtaqueHoja hoja;
         hoja = new AtaqueHoja(getDamage() , 1.8);
         initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);

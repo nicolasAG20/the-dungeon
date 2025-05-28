@@ -16,10 +16,7 @@ public class AtaqueRayoLasser extends Ataque {
     @Override
     public double infligirDaño(Player enemy){
         double damage= 0; 
-        damage= atk*multiplier - (1.5*enemy.getDefense());
-        if(damage<0){
-            return 0; 
-        }
+        damage = (atk*multiplier)*100/(enemy.getDefense()+400);
         return damage; 
     }
 }

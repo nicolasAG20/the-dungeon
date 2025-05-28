@@ -13,7 +13,7 @@ public class MejoraVida extends Mejora{
     private int statMHp;
 
     public MejoraVida(int statMHp, int dificultadActual) {
-        super("aumenta la vida maxima a +"+statMHp*dificultadActual);
+        super("Aumenta la vida maxima a + "+statMHp*dificultadActual);
         this.statMHp = statMHp*dificultadActual;
     }
     

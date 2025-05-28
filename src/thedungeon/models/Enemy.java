@@ -92,10 +92,6 @@ public abstract class Enemy extends Sprite {
     public double getShield() {
         return shield;
     }
-    
-    public void loadAnimation(){
-        
-    }
 
     public double getHp() {
         return hp;

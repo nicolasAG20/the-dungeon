@@ -10,12 +10,7 @@ import javax.imageio.ImageIO;
 import thedungeon.main.Game;
 
 
-public class LoadSave {
-  
-    public static final String ENEMY_1 = "images/enemigo1P.png";
-    public static final String ENEMY_2 = "images/enemigo2P.png";
-    public static final String PLAYER = "images/jugadorP.png";    
-    public static final String FINAL_BOSS = "images/jefeFinalP.png";               
+public class LoadSave {              
     
     public static BufferedImage GetSpriteAtlas(String fileName){
         BufferedImage img = null;

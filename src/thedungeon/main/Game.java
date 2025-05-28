@@ -2,7 +2,7 @@ package thedungeon.main;
 
 // @author vanes
 
-import TheDungeon.models.Usu;
+import thedungeon.models.Usu;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -10,8 +10,6 @@ import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import thedungeon.models.Ataque;
 import thedungeon.models.Cura;
@@ -121,7 +119,7 @@ public class Game  implements Runnable {
                            
             if (System.currentTimeMillis()- lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: "+ frames + " UPS: " + updates);
+
                 frames = 0;
                 updates = 0;
             }

@@ -1,10 +1,7 @@
 package thedungeon.main;
 
-// @author vanes
-
 import baseThedungeon.models.Lector;
 import inputs.KeyboardInputs;
-import inputs.MouseInputs;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,6 +15,11 @@ import javax.swing.JLabel;
 import thedungeon.models.Mejora;
 import utilz.LoadSave;
 
+/**
+ * Panel principal del juego que maneja la visualizacion
+ * Hereda de JPanel para mostrar los elementos graficos
+ * @author Vanessa Toro Sepulveda,Nicolas Agudelo Grajales
+ */
 public class GamePanel extends JPanel {
     private Game game;
     private JLabel vidaPlayer;
@@ -30,66 +32,78 @@ public class GamePanel extends JPanel {
     private JLabel rondaActual;
     private JLabel puntajeActual;
     private JLabel puntajeMax;
-    private JLabel[] mejoras= new JLabel[3];
+    private JLabel[] mejoras = new JLabel[3];
     private JLabel rondaMj; 
-    private int entero=0;
+    private int entero = 0;
     private BufferedImage fondo;
     
+    private int shieldCooldown = 0;
     
-    private int shieldCooldown=0;
-    
+    /**
+     * Constructor del panel del juego
+     * 
+     * @param game Instancia del juego principal
+     */
     public GamePanel(Game game) {
-       
         this.game = game;
         setPanelSize();
         setFocusable(true);
         addKeyListener(new KeyboardInputs(this));
         requestFocusInWindow();
-        fondo= LoadSave.GetSpriteAtlas("images/backGround.png");
+        fondo = LoadSave.GetSpriteAtlas("images/backGround.png");
         initLabels();
-        
     }
 
+    /**
+     * Establece el tamaño del panel segun las constantes del juego
+     */
     private void setPanelSize() {
         Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         setPreferredSize(size);
     }
 
+    /**
+     * Actualiza el estado del juego (actualmente vacio)
+     */
     public void updateGame() {
-
+        // Metodo para actualizaciones del juego
     }
 
+    /**
+     * Dibuja todos los componentes del juego
+     * 
+     * @param g Objeto Graphics para renderizar
+     */
     @Override
     public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(fondo, 0, 0,GAME_WIDTH,GAME_HEIGHT, this);
-            locateTextos();
+        super.paintComponent(g);
+        g.drawImage(fondo, 0, 0, GAME_WIDTH, GAME_HEIGHT, this);
+        locateTextos();
             
-            if(game.isRondaMejora()){
-                if(entero==0){
-                    initMejoras();
-                    entero=1;
-                }
-                
-                locateMejoras();
-            }else{
-                hideMejoras();
-                entero=0;
+        if(game.isRondaMejora()) {
+            if(entero == 0) {
+                initMejoras();
+                entero = 1;
             }
-            if(!game.isJugadorVivo()){
-                textoPerder.setText("Ha perdido!! presione R para reiniciar");
-                textoPerder.setLocation(40, 200);
-            }else{
-                textoPerder.setText("");
-            }
-            game.render(g);
+            locateMejoras();
+        } else {
+            hideMejoras();
+            entero = 0;
+        }
+        
+        if(!game.isJugadorVivo()) {
+            textoPerder.setText("Ha perdido!! presione R para reiniciar");
+            textoPerder.setLocation(40, 200);
+        } else {
+            textoPerder.setText("");
+        }
+        game.render(g);
     }
 
-    public Game getGame() {
-            return game;
-    }
-
-    public void initLabels(){
+    /**
+     * Inicializa las etiquetas de informacion del juego
+     */
+    public void initLabels() {
         vidaPlayer = new JLabel((float)game.getPlayer().getHp() + "/"+ game.getPlayer().getHpMax());
         vidaPlayer.setForeground(Color.RED);
         vidaPlayer.setFont(new Font("Arial", Font.BOLD, 16));
@@ -162,24 +176,32 @@ public class GamePanel extends JPanel {
         this.add(vidaPlayer);
     }
    
-    public void initMejoras(){
+    /**
+     * Inicializa las etiquetas de mejoras
+     */
+    public void initMejoras() {
         rondaMj = new JLabel("ronda Mejora");
-         rondaMj.setForeground(Color.WHITE);
-         rondaMj.setFont(new Font("Arial", Font.BOLD, 16));
-         rondaMj.setBounds(300, 50, 150, 80);
-         this.add(rondaMj);
-        Mejora[] mejorasJuego= game.getMejoras();
-        for(int i=0; i<3; i++){
+        rondaMj.setForeground(Color.WHITE);
+        rondaMj.setFont(new Font("Arial", Font.BOLD, 16));
+        rondaMj.setBounds(300, 50, 150, 80);
+        this.add(rondaMj);
+        
+        Mejora[] mejorasJuego = game.getMejoras();
+        for(int i = 0; i < 3; i++) {
             if (mejorasJuego[i] != null) {
-            mejoras[i] = new JLabel((i+1) + ") " +mejorasJuego[i].getInfoMejora());
-            mejoras[i].setForeground(Color.WHITE);
-            mejoras[i].setFont(new Font("Arial", Font.BOLD, 16));
-            mejoras[i].setBounds(300, 50, 300, 80);
-            this.add(mejoras[i]);
+                mejoras[i] = new JLabel((i+1) + ") " + mejorasJuego[i].getInfoMejora());
+                mejoras[i].setForeground(Color.WHITE);
+                mejoras[i].setFont(new Font("Arial", Font.BOLD, 16));
+                mejoras[i].setBounds(300, 50, 300, 80);
+                this.add(mejoras[i]);
             }
         }
     }
-    public void locateTextos(){
+    
+    /**
+     * Ubica y actualiza los textos informativos
+     */
+    public void locateTextos() {
         vidaPlayer.setText((int)(game.getPlayer().getHp()) + "/"+ game.getPlayer().getHpMax()+ " vida");
         vidaPlayer.setLocation(20, 480);
         escudoPlayer.setText((int)(game.getPlayer().getShield()) + " escudo");
@@ -195,56 +217,88 @@ public class GamePanel extends JPanel {
         puntajeMax.setText("puntaje max: " + game.getPuntajeMax());
         puntajeMax.setLocation(0, 10);
         puntajeActual.setText("puntaje: " + game.getPuntajeActual());
-        puntajeActual.setLocation(0, 40 );
+        puntajeActual.setLocation(0, 40);
         
         textEnemies();
         vidaEnemigos.setLocation(200,550);
     }
-     public void locateMejoras(){
+    
+    /**
+     * Ubica las etiquetas de mejoras en pantalla
+     */
+    public void locateMejoras() {
         rondaMj.setLocation(250, 5);
-        for(int i=0; i<3; i++){
-           if(mejoras[i] != null){
-                if(i==0){
-                mejoras[i].setLocation(20, 100);
-                 }else if(i==1){
-                mejoras[i].setLocation(20, 150);
-                 }else{
-                mejoras[i].setLocation(20, 200);
-                 }
-           }
-           
-           
+        for(int i = 0; i < 3; i++) {
+            if(mejoras[i] != null) {
+                if(i == 0) {
+                    mejoras[i].setLocation(20, 100);
+                } else if(i == 1) {
+                    mejoras[i].setLocation(20, 150);
+                } else {
+                    mejoras[i].setLocation(20, 200);
+                }
+            }
         }
     }
      
-     public void hideMejoras(){
-         rondaMj.setText("");
-         for(int i=0; i<3 ; i++){
-             mejoras[i].setText("");
-         }
-     }
+    /**
+     * Oculta las etiquetas de mejoras
+     */
+    public void hideMejoras() {
+        rondaMj.setText("");
+        for(int i = 0; i < 3; i++) {
+            if(mejoras[i] != null) {
+                mejoras[i].setText("");
+            }
+        }
+    }
 
+    /**
+     * Establece el cooldown del escudo
+     * 
+     * @param shieldCooldown Tiempo de cooldown restante
+     */
     public void setShieldCooldown(int shieldCooldown) {
         this.shieldCooldown = shieldCooldown;
     }
     
-    public void textEnemies(){
-        if(game.getEnemigosVivos()==0){
+    /**
+     * Actualiza el texto de vida de los enemigos
+     */
+    public void textEnemies() {
+        if(game.getEnemigosVivos() == 0) {
             vidaEnemigos.setText("");
-        }else{
-            String text="" ; 
-            for(int i=0; i<game.getEnemies().size(); i++){
-                text+= "-vida enemigo "+ (i+1) + ": "+ (int)game.getEnemies().get(i).getHp()+" ";
+        } else {
+            String text = ""; 
+            for(int i = 0; i < game.getEnemies().size(); i++) {
+                text += "-vida enemigo "+ (i+1) + ": "+ (int)game.getEnemies().get(i).getHp()+" ";
             }
             vidaEnemigos.setText(text);
         }
     }
 
+    /**
+     * Establece una nueva instancia del juego
+     * 
+     * @param game Nueva instancia del juego
+     */
     public void setGame(Game game) {
         this.game = game;
     }
      
-    public void cerrarJuego(){
-        
+    /**
+     * Metodo para cerrar el juego (actualmente vacio)
+     */
+    public void cerrarJuego() {
+        // Metodo para cerrar el juego
+    }
+
+    /**
+     * Obtiene la instancia del juego
+     * 
+     * @return Instancia del juego
+     */
+    public Game getGame() {
+        return game;
     }
 }
